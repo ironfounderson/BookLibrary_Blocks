@@ -13,6 +13,7 @@
 
 typedef void(^BookViewControllerResponse)(BookViewController *controller);
 
+
 @interface BookViewController : UIViewController {
 	UITextField *titleField_;
 	UITextField *authorField_;
