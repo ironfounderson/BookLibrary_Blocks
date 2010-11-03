@@ -9,16 +9,24 @@
 #import <UIKit/UIKit.h>
 
 @class Book;
+@class BookViewController;
+
+typedef void(^BookViewControllerResponse)(BookViewController *controller);
 
 @interface BookViewController : UIViewController {
 	UITextField *titleField_;
 	UITextField *authorField_;
 	Book *book_;
+	BookViewControllerResponse cancelBlock_;
+	BookViewControllerResponse saveBlock_;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *titleField;
 @property (nonatomic, retain) IBOutlet UITextField *authorField;
 @property (nonatomic, retain) Book *book;
+
+- (void)setCancelBlock:(BookViewControllerResponse)cancelBlock;
+- (void)setSaveBlock:(BookViewControllerResponse)saveBlock;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)save:(id)sender;
