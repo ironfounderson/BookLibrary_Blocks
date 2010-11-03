@@ -14,6 +14,8 @@
 @synthesize titleField = titleField_;
 @synthesize authorField = authorField_;
 @synthesize book = book_;
+@synthesize cancelBlock = cancelBlock_;
+@synthesize saveBlock = saveBlock_;
 
 - (IBAction)cancel:(id)sender {
 	if (cancelBlock_) {
@@ -27,14 +29,6 @@
 	if (saveBlock_) {
 		saveBlock_(self);
 	}
-}
-
-- (void)setCancelBlock:(BookViewControllerResponse)cancelBlock {
-	cancelBlock_ = Block_copy(cancelBlock);
-}
-
-- (void)setSaveBlock:(BookViewControllerResponse)saveBlock {
-	saveBlock_ = Block_copy(saveBlock);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,8 +45,8 @@
 	[titleField_ release];
 	[authorField_ release];
 	[book_ release];
-	Block_release(cancelBlock_);
-	Block_release(saveBlock_);
+	[cancelBlock_ release];
+	[saveBlock_ release];
 	[super dealloc];
 }
 

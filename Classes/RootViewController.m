@@ -43,21 +43,22 @@
 #pragma mark Add a new object
 
 - (void)insertNewObject {
-	NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
+	__block NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+    
+	NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
     Book *newBook = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
 	
 	BookViewController *bookViewController = [[BookViewController alloc] init];
 	bookViewController.book = newBook;
-		
+	
+	__block __typeof__(self) blockSelf = self;
+	
 	[bookViewController setCancelBlock:^(BookViewController *controller) {
-		NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
 		[context rollback];
-		[self dismissModalViewControllerAnimated:YES];
+		[blockSelf dismissModalViewControllerAnimated:YES];
 	}];
 	
 	[bookViewController setSaveBlock:^(BookViewController *controller) {
-		NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
 		NSError *error = nil;
 		if (![context save:&error]) {
 			/*
@@ -68,11 +69,12 @@
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 			abort();
 		}
-		[self.tableView reloadData];
-		[self dismissModalViewControllerAnimated:YES];
+		[blockSelf.tableView reloadData];
+		[blockSelf dismissModalViewControllerAnimated:YES];
 	}];
 	
 	[self presentModalViewController:bookViewController animated:YES];
+	[bookViewController release];
 }
 
 

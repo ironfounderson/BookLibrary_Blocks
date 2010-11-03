@@ -24,9 +24,8 @@ typedef void(^BookViewControllerResponse)(BookViewController *controller);
 @property (nonatomic, retain) IBOutlet UITextField *titleField;
 @property (nonatomic, retain) IBOutlet UITextField *authorField;
 @property (nonatomic, retain) Book *book;
-
-- (void)setCancelBlock:(BookViewControllerResponse)cancelBlock;
-- (void)setSaveBlock:(BookViewControllerResponse)saveBlock;
+@property (nonatomic, copy) BookViewControllerResponse cancelBlock;
+@property (nonatomic, copy) BookViewControllerResponse saveBlock;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)save:(id)sender;
